@@ -1,0 +1,12 @@
+- hosts: 127.0.0.1
+  connection: local
+  vars_files:
+    - /home/ubuntu/.prometheus_secret.yml
+  tasks:
+      - name: init prometheus config
+        template: src=prometheus.yml.tpl dest=/home/ubuntu/prometheus/prometheus.yml
+        notify: restart prometheus
+  handlers:
+    - name: restart prometheus
+      shell: monit prometheus restart
+      become: yes

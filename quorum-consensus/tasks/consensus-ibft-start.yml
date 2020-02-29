@@ -1,0 +1,3 @@
+---
+- name: Start IBFT
+  shell: "cd {{ ProjectDir }} && bash istanbul-start.sh {{ PrivacyImpl }}"

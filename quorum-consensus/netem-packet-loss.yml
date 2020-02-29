@@ -1,0 +1,21 @@
+- name: Add packet loss for node-1
+  hosts: aws_ec2[0]
+  vars_files:
+    - vars/common.yml
+  tasks:
+    - include_tasks: tasks/netem-clear-all.yml
+    - include_tasks: tasks/netem-packet-loss.yml
+      vars: 
+        action: add
+        probability: 0.1%
+- name: Add packet loss burst for node-2
+  hosts: aws_ec2[1]
+  vars_files:
+    - vars/common.yml
+  tasks:
+    - include_tasks: tasks/netem-clear-all.yml
+    - include_tasks: tasks/netem-packet-loss-burst.yml
+      vars:
+        action: add
+        probability: 0.3%
+        correlation_probability: 25%

@@ -1,0 +1,25 @@
+- name: Add packet misorder with specific gap for node-1
+  hosts: aws_ec2[0]
+  vars_files:
+    - vars/common.yml
+  tasks:
+    - include_tasks: tasks/netem-clear-all.yml
+    - include_tasks: tasks/netem-packet-misorder-gap.yml
+      vars: 
+        action: add
+        packet_nodelay_index_mod_base: 5
+        delay_time: 10ms
+        probability: 25%
+        correlation_probability: 50%
+- name: Add packet misorder with correlation probability for node-2
+  hosts: aws_ec2[1]
+  vars_files:
+    - vars/common.yml
+  tasks:
+    - include_tasks: tasks/netem-clear-all.yml
+    - include_tasks: tasks/netem-packet-misorder-probability.yml
+      vars:
+        action: add
+        delay_time: 10ms
+        probability: 25%
+        correlation_probability: 50%
